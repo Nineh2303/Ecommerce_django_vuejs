@@ -1,0 +1,7 @@
+django
+psycopg2
+stripe 
+djoser 
+django-rest-framework
+django-cors-headers
+pillow 
