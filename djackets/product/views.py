@@ -48,3 +48,9 @@ def search(request):
         return Response(serializer.data) 
     else:
         return Response({"products": []})
+
+@api_view(['GET'])
+def getAllCategory(request):
+    category = Category.objects.all()
+    serializer = CategorySerializer(category, many= True) 
+    return Response(serializer.data)

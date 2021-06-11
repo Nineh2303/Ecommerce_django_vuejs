@@ -23,14 +23,24 @@
                   <span clas="icon"> <i class="fas fa-search"></i> </span>
                 </button>
               </div>
+              <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li v-for="category in categories"
+                v-bind:key="category.id">
+                 <router-link v-bind:to="category.get_absolute_url" class ="navbar-item">{{ category.name }}</router-link>
+                </li>
+          </ul>
+        </li>
             </div>
             </form>
+            
           </div>
         </div>
         <div class ="navbar-end">
-          <router-link to="/summer" class ="navbar-item">Summer</router-link>
-           <router-link to="/winter" class ="navbar-item">Winter</router-link>
-
+        
            <div class="navbar-item"> 
              <div class= "buttons"> 
                <template v-if="$store.state.isAuthenticated">
@@ -70,7 +80,8 @@ import axios from 'axios'
         showMobileMenu : false,
            cart : {
           items : []
-        }
+        },
+        categories :[],
       }
     },
    beforeCreate(){
@@ -86,7 +97,20 @@ import axios from 'axios'
    } ,
    mounted(){
      this.cart = this.$store.state.cart
+     this.getAllCategories()
    },
+   methods: {
+      getAllCategories (){
+        axios
+        .get('/api/v1/all-categories/')
+        .then(response=>{
+         this.categories = response.data
+        })
+        .catch(error=>{
+          console.log(error)
+        })
+      }
+},
   computed : { 
     cartTotalLength(){
       let totalLength = 0  
